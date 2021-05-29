@@ -100,7 +100,7 @@ def load_user(user_id):
 @app.route('/')
 def get_all_posts():
     posts = BlogPost.query.all()
-    return render_template("index.html", all_posts=posts, current_user=current_user)
+    return render_template("index.html", all_posts=posts, current_user=current_user, year=datetime.now().year)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -123,7 +123,7 @@ def register():
         db.session.commit()
         login_user(new_user)
         return redirect(url_for('get_all_posts'))
-    return render_template("register.html", form=form, current_user=current_user)
+    return render_template("register.html", form=form, current_user=current_user, year=datetime.now().year)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -150,7 +150,7 @@ def login():
                 login_user(user)
                 return redirect(url_for('get_all_posts'))
 
-    return render_template("login.html", form=form, current_user=current_user)
+    return render_template("login.html", form=form, current_user=current_user, year=datetime.now().year)
 
 
 @app.route('/logout')
@@ -180,17 +180,17 @@ def show_post(post_id):
 
 
 
-    return render_template("post.html", post=requested_post, form=comment, comments=all_comments, current_user=current_user)
+    return render_template("post.html", post=requested_post, form=comment, comments=all_comments, current_user=current_user, year=datetime.now().year)
 
 
 @app.route("/about")
 def about():
-    return render_template("about.html", current_user=current_user)
+    return render_template("about.html", current_user=current_user, year=datetime.now().year)
 
 
 @app.route("/contact")
 def contact():
-    return render_template("contact.html", current_user=current_user)
+    return render_template("contact.html", current_user=current_user, year=datetime.now().year)
 
 
 @app.route("/new-post", methods=['GET', 'POST'])
@@ -209,7 +209,7 @@ def add_new_post():
         db.session.add(new_post)
         db.session.commit()
         return redirect(url_for("get_all_posts"))
-    return render_template("make-post.html", form=form, current_user=current_user)
+    return render_template("make-post.html", form=form, current_user=current_user, year=datetime.now().year)
 
 
 @app.route("/edit-post/<int:post_id>")
@@ -230,9 +230,9 @@ def edit_post(post_id):
         post.author = edit_form.author.data
         post.body = edit_form.body.data
         db.session.commit()
-        return redirect(url_for("show_post", post_id=post.id, current_user=current_user))
+        return redirect(url_for("show_post", post_id=post.id, current_user=current_user, year=datetime.now().year))
 
-    return render_template("make-post.html", form=edit_form, current_user=current_user, edit=True)
+    return render_template("make-post.html", form=edit_form, current_user=current_user, edit=True, year=datetime.now().year)
 
 
 
@@ -242,7 +242,7 @@ def delete_post(post_id):
     post_to_delete = BlogPost.query.get(post_id)
     db.session.delete(post_to_delete)
     db.session.commit()
-    return redirect(url_for('get_all_posts', current_user=current_user, admin=True))
+    return redirect(url_for('get_all_posts', current_user=current_user, admin=True, year=datetime.now().year))
 
 if __name__ == "__main__":
     app.run(debug=True)
