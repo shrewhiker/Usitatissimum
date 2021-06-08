@@ -47,6 +47,10 @@ class User(UserMixin, db.Model):
     posts = relationship('BlogPost', back_populates='author')
     comments = relationship('Comment', back_populates='comment_author')
 db.create_all()
+#fa-stack-1x fa-inverse
+# fa-stack-1x fa-inverse
+#
+#<i class="fas fa-circle fa-stack-2x"></i>
 
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
